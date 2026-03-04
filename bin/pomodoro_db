@@ -1,0 +1,43 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+DB_FILE="backend/pomodoro.db"
+
+usage() {
+  echo "Usage: $0 (create|destroy|reset|dump)"
+}
+
+if [ $# -ne 1 ]; then
+  usage
+  exit 1
+fi
+
+case $1 in
+  "create")
+    sqlite3 $DB_FILE < backend/schema.sql
+    sqlite3 $DB_FILE < backend/data.sql
+    echo "Database created."
+    ;;
+
+  "destroy")
+    rm -f $DB_FILE
+    echo "Database destroyed."
+    ;;
+
+  "reset")
+    rm -f $DB_FILE
+    sqlite3 $DB_FILE < backend/schema.sql
+    sqlite3 $DB_FILE < backend/data.sql
+    echo "Database reset."
+    ;;
+
+  "dump")
+    sqlite3 -header -column $DB_FILE "SELECT * FROM stats;"
+    ;;
+
+  *)
+    usage
+    exit 1
+    ;;
+esac
