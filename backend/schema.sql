@@ -15,7 +15,7 @@ CREATE TABLE sessions (
 
 CREATE TABLE plants (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
+    plant_name TEXT NOT NULL,
     sessions_required INTEGER NOT NULL,
     sessions_completed INTEGER NOT NULL DEFAULT 0,
     completed boolean NOT NULL DEFAULT 0
